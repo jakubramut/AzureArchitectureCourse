@@ -1,0 +1,9 @@
+{
+  "$schema": "https://aka.ms/azure-quickstart-templates-metadata-schema#",
+  "type": "QuickStart",
+  "itemDisplayName": "Multi tier VNet with NSGs and DMZ",
+  "description": "This template deploys a Virtual Network with 2 subnets, 2 nsg, 2 ip, 2 linx vm",
+  "summary": "Install Virtual Network with DMZ",
+  "githubUsername": "jakubramut",
+  "dateUpdated": "2020-11-04"
+}

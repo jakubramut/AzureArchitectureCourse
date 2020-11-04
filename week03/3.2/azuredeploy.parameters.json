@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "value": "arm-we-vnet"
+    },
+    "addressPrefix": {
+      "value": "10.0.0.0/16"
+    },
+    "FESubnetPrefix": {
+      "value": "10.0.0.0/24"
+    },
+    "BESubnetPrefix": {
+      "value": "10.0.1.0/24"
+    },
+    "FENSGName": {
+      "value": "arm-fe-we-nsg"
+    },
+    "BENSGName": {
+      "value": "arm-be-we-nsg"
+    }
+  }
+}
