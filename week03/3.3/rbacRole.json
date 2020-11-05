@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "roleName": {
+        "type": "string",
+        "defaultValue": "Custom Role Azure",
+        "metadata": {
+          "description": "Friendly name of the role definition"
+        }
+      },
+      "roleDescription": {
+        "type": "string",
+        "defaultValue": "Subscription Level Deployment of a Role Definition",
+        "metadata": {
+          "description": "Detailed description of the role definition"
+        }
+      }
+    },
+    "variables": {
+      "roleDefName": "[guid(subscription().id, string(parameters('roleDescription')))]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Authorization/roleDefinitions",
+        "apiVersion": "2018-07-01",
+        "name": "[variables('roleDefName')]",
+        "properties": {
+          "roleName": "[parameters('roleName')]",
+          "description": "[parameters('roleDescription')]",
+          "type": "customRole",
+          "isCustom": true,
+          "permissions": [
+            {
+                "actions": [
+                    "Microsoft.ClassicCompute/virtualMachines/stop/action",
+                    "Microsoft.ClassicCompute/virtualMachines/start/action",
+                    "Microsoft.Support/supportTickets/write"
+                ]
+            }
+          ],
+          "assignableScopes": [
+            "[resourceGroup().id]"
+          ]
+        }
+      }
+    ]
+}

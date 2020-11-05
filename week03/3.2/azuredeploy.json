@@ -2,6 +2,12 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "SALocation": {
+      "type": "string",
+      "metadata": {
+          "description": "URL to location of linked template for SA"
+      }
+    },
     "virtualMachineSize": {
       "type": "string",
       "defaultValue": "Standard_B2s",
@@ -330,23 +336,37 @@
     },
     {
       "apiVersion": "2019-06-01",
-      "type": "Microsoft.Storage/storageAccounts",
+      "type": "Microsoft.Resources/deployments",
       "name": "[variables('FEVMStorageAccountName')]",
-      "location": "[parameters('location')]",
-      "sku":{
-          "name": "[parameters('storageAccountType')]"
-      },
-      "kind": "StorageV2"
+      "properties":{
+        "mode": "Incremental",
+        "templateLink": {
+            "uri": "[parameters('SALocation')]",
+            "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+            "storageAccountName": {"value": "[variables('FEVMStorageAccountName')]"},
+            "storageAccountType": {"value": "[parameters('storageAccountType')]"},
+            "location": {"value": "[parameters('location')]"}
+        }
+      }
     },
     {
       "apiVersion": "2019-06-01",
-      "type": "Microsoft.Storage/storageAccounts",
+      "type": "Microsoft.Resources/deployments",
       "name": "[variables('BEVMStorageAccountName')]",
-      "location": "[parameters('location')]",
-      "sku":{
-          "name": "[parameters('storageAccountType')]"
-      },
-      "kind": "StorageV2" 
+      "properties":{
+        "mode": "Incremental",
+        "templateLink": {
+           "uri": "[parameters('SALocation')]",
+           "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+            "storageAccountName": {"value": "[variables('BEVMStorageAccountName')]"},
+            "storageAccountType": {"value": "[parameters('storageAccountType')]"},
+            "location": {"value": "[parameters('location')]"}
+        }
+      }
     },
     {
       "apiVersion": "2020-05-01",
